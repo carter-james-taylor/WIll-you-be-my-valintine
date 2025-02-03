@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emi Will you be my valentine?</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #e9b9f8;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .image-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .button-container {
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Space between buttons */
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.2s ease; /* Smooth scaling effect */
+        }
+        #yes-button {
+            background-color: green;
+            color: white;
+        }
+        #no-button {
+            background-color: red;
+            color: white;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px; /* Limit modal width on larger screens */
+        }
+        .modal-content button {
+            margin: 10px;
+        }
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 24px; /* Smaller heading for mobile */
+            }
+            button {
+                font-size: 14px; /* Smaller buttons for mobile */
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="image-container">
+    <!-- Replace 'your-image.jpg' with the path to your image -->
+    <img src="https://media1.tenor.com/m/nKuGYwp1uOcAAAAd/rose-cute.gif" alt="Centered Image">
+</div>
+
+<div class="button-container">
+    <h1>Will you be my Valentine?</h1>
+    <div class="buttons">
+        <button id="yes-button">Yes</button>
+        <button id="no-button">No</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p id="modal-message"></p>
+        <button id="close-modal">Close</button>
+    </div>
+</div>
+
+<script>
+    let noButtonClicks = 0;
+    const noButton = document.getElementById('no-button');
+    const yesButton = document.getElementById('yes-button');
+    const modal = document.getElementById('modal');
+    const closeModalButton = document.getElementById('close-modal');
+    const modalMessage = document.getElementById('modal-message');
+
+    // Array of random phrases
+    const randomPhrases = [
+        "Are you sure?",
+        "Really sure?",
+        "Are you positive?",
+        "Pookie please!",
+        "Wife please!",
+        "Love please?",
+        "If you say no I'll be very sad!",
+        "Think about it",
+        "I'll be very sad"
+    ];
+
+    noButton.addEventListener('click', () => {
+        noButtonClicks++;
+        if (noButtonClicks === 1) {
+            // Show the modal with a message
+            modalMessage.textContent = "Are you sure? Please pick again!";
+            modal.style.display = 'flex';
+        } else if (noButtonClicks >= 2) {
+            moveNoButtonRandomly();
+        }
+
+        // Change the No button text to a random phrase
+        const randomIndex = Math.floor(Math.random() * randomPhrases.length);
+        noButton.textContent = randomPhrases[randomIndex];
+
+        // Increase the size of the Yes button
+        const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+        yesButton.style.fontSize = `${currentSize + 2}px`; // Increase font size by 2px
+        yesButton.style.padding = `${parseFloat(yesButton.style.padding || 10) + 2}px ${parseFloat(yesButton.style.padding || 20) + 4}px`; // Increase padding
+    });
+
+    yesButton.addEventListener('click', () => {
+        // Redirect to the new page
+        window.location.href = "yes-page.html";
+    });
+
+    closeModalButton.addEventListener('click', () => {
+        // Hide the modal
+        modal.style.display = 'none';
+    });
+
+    function moveNoButtonRandomly() {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const buttonWidth = noButton.offsetWidth;
+        const buttonHeight = noButton.offsetHeight;
+
+        const randomX = Math.floor(Math.random() * (windowWidth - buttonWidth));
+        const randomY = Math.floor(Math.random() * (windowHeight - buttonHeight));
+
+        noButton.style.position = 'fixed'; /* Use fixed positioning for random movement */
+        noButton.style.left = `${randomX}px`;
+        noButton.style.top = `${randomY}px`;
+    }
+</script>
+
+</body>
+</html>
